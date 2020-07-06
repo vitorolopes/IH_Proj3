@@ -8,21 +8,24 @@ const { response } = require('../app')
 
 // CREATE post route
 router.post('/createpost', (req, res) => {
-  const {title, description} = req.body
-
+  const {title, description, photo} = req.body
+  // Validation
   if (!title || !description) {
     res.status(400).json({ message: 'Provide username, password and email' });
     return;
   }
+  //
 
   // console.log(req.session)
   Post.create(
     {
       title,
       description,
+      photo,
       postedBy: req.session.passport.user  // TO LINK A post TO THE user WHO CREATED IT
     }
-  ).then( response =>{
+  )
+  .then( response =>{
      res.json(response);
   })
   .catch(err=>{
@@ -48,9 +51,11 @@ router.delete('/deletepost/:id', (req, res, next) => {
 });
 
 // READ get route => to read all posts
-router.get('/allpost', (req,res)=>{
+router.get('/allposts', (req,res)=>{
   // gets data from mongoDB
   Post.find()
+    // .populate("postedBy")
+    .populate("postedBy", "_id username userimage")
     .then(allPosts => {
       res.json(allPosts)
     }
@@ -70,6 +75,25 @@ router.put('/updatepost/:id', (req, res) => {
       .catch(error => {
         res.json(error);
       }) 
+});
+
+// READ get route => to read all posts from the current (logged) user
+router.get('/ownposts', (req, res) => {
+  console.log("hey")
+  console.log(req.session)
+  console.log("User", req.user)
+  console.log("User id", req.user._id)
+  console.log("Passport", req.session.passport.user)
+  Post.find(
+    {
+      postedBy: req.user._id
+    })
+  .populate("postedBy", "_id username")
+  .then(posts => {
+    res.json(posts)
+  }).catch(err=>{
+    res.json(err)
+  })
 });
 
 module.exports = router

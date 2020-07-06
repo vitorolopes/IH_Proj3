@@ -12,9 +12,10 @@ const User       = require('../models/user-model');
 
 authRoutes.post('/signup', (req, res, next) => {
     
-    const {username, password, email, userimage} = req.body
-  
-    if (!username || !password || !email) {
+     const {username, password, email, userimage} = req.body
+   // const {username, password} = req.body
+    
+    if (!username || !password || !email ) {
       res.status(400).json({ message: 'Provide username, password and email' });
       return;
     }
