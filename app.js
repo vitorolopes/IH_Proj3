@@ -93,6 +93,8 @@ app.use('/api', authRoutes);
 
 app.use('/api', require('./routes/post-routes'));
 
+app.use('/api', require('./routes/image-routes'));
+
 
 module.exports = app;
 
