@@ -14,6 +14,7 @@ router.post('/images/create', (req, res, next) => {
   Image.create(req.body)
     .then(newImage => {
       res.status(200).json(newImage);
+      console.log(newImage)
     })
     .catch(err => next(err));
 });

@@ -5,34 +5,65 @@ const router = express.Router()
 const Post = require('../models/post-model')
 const { response } = require('../app')
 
+const uploadCloud = require('../configs/cloudinary.js'); // --------->>>>>>>>>>>>>>
+
 
 // CREATE post route
 router.post('/createpost', (req, res) => {
-  const {title, description, photo} = req.body
+  const {title, description, imageUrl} = req.body
+  // const imageUrl = req.file.secure_url
   // Validation
-  if (!title || !description) {
-    res.status(400).json({ message: 'Provide username, password and email' });
+  if (!title || !description || !imageUrl) {
+    res.status(400).json({ message: 'Provide title, description and image' });
     return;
   }
   //
+  console.log("hey Post.create route")
+  // console.log(req)
+  console.log(req.session.user)
+  // console.log("User", req.user)
+  
+  // console.log(req.user._id)
+  // console.log("Passport", req._passport.user)
+  // console.log("Passport", req.session.passport.user)
+  // Post.create(
+  //   {
+  //     title,
+  //     description,
+  //     photo,
+  //     postedBy: req.session.passport.user  // TO LINK A post TO THE user WHO CREATED IT
+  //   }
+  // )
+  // .then( response =>{
+  //    res.json(response);
+  // })
+  // .catch(err=>{
+  //    res.json(error);
+  // })
 
-  // console.log(req.session)
-  Post.create(
-    {
-      title,
-      description,
-      photo,
-      postedBy: req.session.passport.user  // TO LINK A post TO THE user WHO CREATED IT
-    }
-  )
-  .then( response =>{
-     res.json(response);
-  })
-  .catch(err=>{
-     res.json(error);
-  })
+      Post.create(
+        {title, 
+        description, 
+        imageUrl,
+        // postedBy: req.session.passport.user  // TO LINK A post TO THE user WHO CREATED IT
+       //  postedBy: req.user  // TO LINK A post TO THE user WHO CREATED IT
+      })
+      .then(newImage => {
+        res.status(200).json(newImage);
+        // console.log(newImage)
+      })
+      .catch(err => next(err));
 
 });
+
+
+router.post('/upload', uploadCloud.single("imageUrl"), (req, res, next) => {
+  res.json({ imageUrl: req.file.secure_url });
+})
+
+
+
+
 
 // DELETE post route => to delete a specific post
 router.delete('/deletepost/:id', (req, res, next) => {

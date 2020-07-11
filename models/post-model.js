@@ -17,11 +17,14 @@ const postSchema = new Schema ({
      type: Schema.Types.ObjectId, 
      ref:"User"
    },
-
-   photo:{
-    type:String,
-    default: "https://media-cdn.tripadvisor.com/media/photo-s/01/03/ae/d7/cascada-del-limon.jpg"
-}
+   imageUrl: { 
+     type: String, 
+     required: true }
+     
+//    photo:{
+//     type:String,
+//     default: "https://media-cdn.tripadvisor.com/media/photo-s/01/03/ae/d7/cascada-del-limon.jpg"
+// }
 
 },{timestamps:true})
 

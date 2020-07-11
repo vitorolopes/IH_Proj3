@@ -23,8 +23,15 @@ require('./configs/passport');
 
 
 
+// mongoose
+//   .connect('mongodb://localhost/Travelgram-Server', {useNewUrlParser: true})
 mongoose
-  .connect('mongodb://localhost/Travelgram-Server', {useNewUrlParser: true})
+.connect('mongodb://heroku_4b02xc2n:6lurl6vkr311t5r1jfcpgphs2j@ds033754.mlab.com:33754/heroku_4b02xc2n',{
+  useCreateIndex: true,
+  useNewUrlParser: true,
+  useUnifiedTopology: true
+})
+
   .then(x => {
     console.log(`Connected to Mongo! Database name: "${x.connections[0].name}"`)
   })
@@ -93,7 +100,7 @@ app.use('/api', authRoutes);
 
 app.use('/api', require('./routes/post-routes'));
 
-app.use('/api', require('./routes/image-routes'));
+// app.use('/api', require('./routes/image-routes'));
 
 
 module.exports = app;

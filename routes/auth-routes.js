@@ -2,12 +2,14 @@
 
 const express    = require('express');
 const authRoutes = express.Router();
+// const router = express.Router() // --------->>>>>>>>>>>>>>
 
 const passport   = require('passport');
 const bcrypt     = require('bcryptjs');
 
 // require the user model !!!!
 const User       = require('../models/user-model');
+// const uploadCloud = require('../configs/cloudinary.js'); // --------->>>>>>>>>>>>>>
 
 
 authRoutes.post('/signup', (req, res, next) => {
@@ -65,10 +67,16 @@ authRoutes.post('/signup', (req, res, next) => {
                 // Send the user's information to the frontend
                 // We can use also: res.status(200).json(req.user);
                 res.status(200).json(aNewUser);
+                console.log (aNewUser._id)
             });
         });
     });
 });
+
+// authRoutes.post('/upload', uploadCloud.single("userimage"), (req, res, next) => {  // --------->>>>>>>>>>>>>>
+//     res.json({ userimage: req.file.secure_url });
+//   })
+
 
 authRoutes.post('/login', (req, res, next) => {
     passport.authenticate('local', (err, theUser, failureDetails) => {
