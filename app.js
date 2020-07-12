@@ -10,6 +10,9 @@ const logger       = require('morgan');
 const path         = require('path');
 const cors         = require('cors')
 
+require('dotenv').config();
+
+
 // WHEN INTRODUCING USERS DO THIS:
 // INSTALL THESE DEPENDENCIES: passport-local, passport, bcryptjs, express-session
 // AND ADD THE FOLLOWING LINES:
@@ -26,7 +29,8 @@ require('./configs/passport');
 // mongoose
 //   .connect('mongodb://localhost/Travelgram-Server', {useNewUrlParser: true})
 mongoose
-.connect('mongodb://heroku_4b02xc2n:6lurl6vkr311t5r1jfcpgphs2j@ds033754.mlab.com:33754/heroku_4b02xc2n',{
+// .connect('mongodb://heroku_4b02xc2n:6lurl6vkr311t5r1jfcpgphs2j@ds033754.mlab.com:33754/heroku_4b02xc2n',{
+  .connect(process.env.MONGODB_URI,{
   useCreateIndex: true,
   useNewUrlParser: true,
   useUnifiedTopology: true
@@ -69,7 +73,11 @@ app.use(favicon(path.join(__dirname, 'public', 'images', 'favicon.ico')));
 app.use(session({
   secret:"some secret goes here",
   resave: true,
-  saveUninitialized: true
+  saveUninitialized: true,
+  rolling: true,
+  cookie: {maxAge: 24 * 60 * 60 * 1000, httpOnly: true}
+  // expires: 60000
+
 }));
 
 

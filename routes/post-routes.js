@@ -20,8 +20,9 @@ router.post('/createpost', (req, res) => {
   //
   console.log("hey Post.create route")
   // console.log(req)
-  console.log(req.session.user)
-  // console.log("User", req.user)
+   console.log(req.session)
+  // console.log(req.session.passport.user)
+   console.log("User", req.user)
   
   // console.log(req.user._id)
   // console.log("Passport", req._passport.user)
@@ -46,7 +47,7 @@ router.post('/createpost', (req, res) => {
         description, 
         imageUrl,
         // postedBy: req.session.passport.user  // TO LINK A post TO THE user WHO CREATED IT
-       //  postedBy: req.user  // TO LINK A post TO THE user WHO CREATED IT
+         postedBy: req.user._id  // TO LINK A post TO THE user WHO CREATED IT
       })
       .then(newImage => {
         res.status(200).json(newImage);
