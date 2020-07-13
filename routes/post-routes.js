@@ -82,6 +82,23 @@ router.get('/allposts', (req,res)=>{
     })
 })
 
+
+//! get the post to update it ------------>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+router.get('/posts/:id', (req, res) => {
+  if(!mongoose.Types.ObjectId.isValid(req.params.id)){
+    res.status(400).json({message: 'id is not valid'})
+    return
+  }
+  Post.findById(req.params.id)
+      .then((post) => {
+        console.log('response from router.get(/posts/:id', post);
+        res.json(post)
+      })
+      .catch(error => {
+        res.json(error);
+      }) 
+});
+
 //  UPDATE put (we could use patch as well) route => to update a specific post
 router.put('/updatepost/:id', (req, res) => {
   Post.findByIdAndUpdate(req.params.id, req.body)
@@ -96,11 +113,11 @@ router.put('/updatepost/:id', (req, res) => {
 
 // READ get route => to read all posts from the current (logged) user
 router.get('/ownposts', (req, res) => {
-  console.log("hey")
-  console.log(req.session)
-  console.log("User", req.user)
-  console.log("User id", req.user._id)
-  console.log("Passport", req.session.passport.user)
+  // console.log("hey")
+  // console.log(req.session)
+  // console.log("User", req.user)
+  // console.log("User id", req.user._id)
+  // console.log("Passport", req.session.passport.user)
   Post.find(
     {
       postedBy: req.user._id
@@ -112,5 +129,7 @@ router.get('/ownposts', (req, res) => {
     res.json(err)
   })
 });
+
+
 
 module.exports = router
