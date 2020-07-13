@@ -26,21 +26,6 @@ router.post('/createpost', (req, res) => {
   
   // console.log(req.user._id)
   // console.log("Passport", req._passport.user)
-  // console.log("Passport", req.session.passport.user)
-  // Post.create(
-  //   {
-  //     title,
-  //     description,
-  //     photo,
-  //     postedBy: req.session.passport.user  // TO LINK A post TO THE user WHO CREATED IT
-  //   }
-  // )
-  // .then( response =>{
-  //    res.json(response);
-  // })
-  // .catch(err=>{
-  //    res.json(error);
-  // })
 
       Post.create(
         {title, 
