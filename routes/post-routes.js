@@ -130,6 +130,38 @@ router.get('/ownposts', (req, res) => {
   })
 });
 
+// UPDATE put route => to update a post when a user likes that post
+router.put('/likepost/:id', (req, res) => {
+  console.log("Id do Post", req.params.id)
+  console.log("Id do User", req.user)
+  console.log( req.session)
+  Post.findByIdAndUpdate (req.params.id, {
+    $push:{likes: req.user._id}
+  })
+  .then((response) => {
+    console.log(response)
+  })
+  .catch(error => {
+    res.json(error);
+  }) 
+})
 
 
 module.exports = router
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
