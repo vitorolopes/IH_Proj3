@@ -26,7 +26,8 @@ const postSchema = new Schema ({
 //     default: "https://media-cdn.tripadvisor.com/media/photo-s/01/03/ae/d7/cascada-del-limon.jpg"
 // }
 
-   likes:[{type: Schema.Types.ObjectId,ref:"User"}]
+   likes:[{type: Schema.Types.ObjectId,ref:"User"}],
+  //  unlikes:[{type: Schema.Types.ObjectId,ref:"User"}]
 },{timestamps:true})
 
 const Post = mongoose.model('Post', postSchema)

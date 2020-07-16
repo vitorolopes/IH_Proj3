@@ -131,21 +131,66 @@ router.get('/ownposts', (req, res) => {
 });
 
 // UPDATE put route => to update a post when a user likes that post
+// router.put('/likepost/:id', (req, res) => {
+//   console.log("Id do Post", req.params.id)
+//   console.log("Id do User", req.user)
+//   console.log( req.session)
+//   Post.findByIdAndUpdate (req.params.id, {
+//     $push:{likes: req.user._id}
+//   })
+//   .then((response) => {
+//     console.log(response)
+//    // res.json(response)
+//   })
+//   .catch(error => {
+//     res.json(error);
+//   }) 
+// })
+
 router.put('/likepost/:id', (req, res) => {
   console.log("Id do Post", req.params.id)
   console.log("Id do User", req.user)
   console.log( req.session)
-  Post.findByIdAndUpdate (req.params.id, {
-    $push:{likes: req.user._id}
-  })
-  .then((response) => {
-    console.log(response)
-  })
-  .catch(error => {
-    res.json(error);
-  }) 
+
+Post.findById(req.params.id)
+.then((response) => {
+    if (response.likes.includes(req.user.id)) {
+      console.log("You have already liked this post")
+    } else {
+      Post.findByIdAndUpdate (req.params.id, {
+        $push:{likes: req.user._id}})
+        .then((response) => {
+        console.log(response)
+      // res.json(response)
+    })
+    .catch(error => {
+      res.json(error);
+    }) 
+}})
 })
 
+router.put('/unlikepost/:id', (req, res) => {
+  console.log("Id do Post", req.params.id)
+  console.log("Id do User", req.user)
+  console.log( req.session)
+
+Post.findById(req.params.id)
+.then((response) => {
+    // if (response.unlikes.includes(req.user.id)) {
+    //   console.log("You have already unliked this post")
+    // } else {
+      Post.findByIdAndUpdate (req.params.id, {
+        $pull:{likes: req.user._id}})
+        .then((response) => {
+        console.log(response)
+      // res.json(response)
+    })
+    .catch(error => {
+      res.json(error);
+    }) 
+// }  ultima chaveta do IF    
+})
+})
 
 module.exports = router
 
