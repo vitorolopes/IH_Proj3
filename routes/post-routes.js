@@ -3,6 +3,7 @@ const mongoose = require('mongoose')
 const router = express.Router()
 
 const Post = require('../models/post-model')
+const User = require('../models/user-model')
 const { response } = require('../app')
 
 const uploadCloud = require('../configs/cloudinary.js'); // --------->>>>>>>>>>>>>>
@@ -46,9 +47,6 @@ router.post('/createpost', (req, res) => {
 router.post('/upload', uploadCloud.single("imageUrl"), (req, res, next) => {
   res.json({ imageUrl: req.file.secure_url });
 })
-
-
-
 
 
 // DELETE post route => to delete a specific post
@@ -130,22 +128,7 @@ router.get('/ownposts', (req, res) => {
   })
 });
 
-// UPDATE put route => to update a post when a user likes that post
-// router.put('/likepost/:id', (req, res) => {
-//   console.log("Id do Post", req.params.id)
-//   console.log("Id do User", req.user)
-//   console.log( req.session)
-//   Post.findByIdAndUpdate (req.params.id, {
-//     $push:{likes: req.user._id}
-//   })
-//   .then((response) => {
-//     console.log(response)
-//    // res.json(response)
-//   })
-//   .catch(error => {
-//     res.json(error);
-//   }) 
-// })
+
 
 router.put('/likepost/:id', (req, res) => {
   console.log("Id do Post", req.params.id)
@@ -191,6 +174,35 @@ Post.findById(req.params.id)
 // }  ultima chaveta do IF    
 })
 })
+
+router.get('/otherusersprofile/:id', (req, res, next) => {
+  User.findById( req.params.id)
+  .then(personalDetails => {
+    res.json(personalDetails);
+  })
+  .catch(err=>{
+  res.json(err)
+})
+});
+
+
+router.get('/otherusersposts/:id', (req, res, next) => {
+        Post.find(
+          {
+            postedBy: req.params.id
+          }
+        )
+        .then(postsFromOtherUser => {
+          res.json(postsFromOtherUser)
+        })
+        .catch(err=>{
+        res.json(err)
+      })
+});
+
+
+
+
 
 module.exports = router
 
