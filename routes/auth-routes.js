@@ -120,6 +120,25 @@ authRoutes.get('/loggedin', (req, res, next) => {
     }
     res.status(403).json({ message: 'Unauthorized' });
 });
- 
+
+
+authRoutes.get(
+    "/auth/google",
+    passport.authenticate("google", {
+      scope: [
+        "https://www.googleapis.com/auth/userinfo.profile",
+        "https://www.googleapis.com/auth/userinfo.email"
+      ]
+    })
+  );
+
+authRoutes.get(
+    "/auth/google/callback",
+    passport.authenticate("google", {
+      successRedirect: "http://localhost:3000/projects",
+      failureRedirect: "http://localhost:3000/login"
+    })
+  );
+
 
 module.exports = authRoutes;
