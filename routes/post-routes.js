@@ -144,7 +144,7 @@ Post.findById(req.params.id)
         $push:{likes: req.user._id}})
         .then((response) => {
         console.log(response)
-      // res.json(response)
+        res.json(response)
     })
     .catch(error => {
       res.json(error);
