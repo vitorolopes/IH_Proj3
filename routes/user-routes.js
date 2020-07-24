@@ -21,12 +21,15 @@ router.post('/updateprofile', (req, res, next) => {
    console.log("User", req.user)
   console.log(req.user._id)
 
-  const userimage = req.body.userimage
+  // const userimage = req.body.userimage
+  const {userimage, username, email} = req.body
   
   
       User.findByIdAndUpdate( req.user._id, //  -------->>>>>>>>>>>>> é aqui q tenho de passar o Id do User  <<<<<<<<<<<<------------
         {
-         userimage: userimage
+         userimage: userimage,
+         username: username,
+         email: email
       })
       .then(newImage => {
         res.status(200).json(newImage);

@@ -9,7 +9,7 @@ const userSchema = new Schema({
 
   password: {
             type: String,
-            required: true
+            required: false  // mudei para false por causa do erro q dava no Social Login
           },
       
   email: {
@@ -19,7 +19,7 @@ const userSchema = new Schema({
 
   userimage: {
           type: String,
-          default: "https://images-na.ssl-images-amazon.com/images/I/61s09WHmZ-L.jpg"
+          default: "https://static1.patasdacasa.com.br/articles/1/61/1/@/2271-o-bulldog-frances-e-um-companheiro-para-articles_media_mobile-2.jpg"
   }
 }, 
 {
